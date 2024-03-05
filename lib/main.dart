@@ -66,7 +66,7 @@ class Player extends BodyComponent with TapCallbacks {
 
 
     add(SpriteComponent(
-        sprite: await game.loadSprite('trash.png'), size: Vector2(2,10), anchor: Anchor.center));
+        sprite: await game.loadSprite('trash.png'), size: Vector2(4,10), anchor: Anchor.center));
   }
 }
 
