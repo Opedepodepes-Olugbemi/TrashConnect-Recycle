@@ -10,15 +10,19 @@ void main() {
 }
 
 class TrashConnect extends Forge2DGame {
-  TrashConnect() : super(gravity: Vector2(0, 5.0));
+  TrashConnect() : super(gravity: Vector2(0, 7.0));
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     camera.viewport.add(FpsTextComponent());
-    world.add(Player());
+
     world.addAll(createBoundaries());
+    
+    world.add(Player(initialPosition: Vector2(0, 10)));
+    world.add(Player(initialPosition: Vector2(5, 15)));
+    world.add(Player(initialPosition: Vector2(10, 30)));
   }
 
   List<Component> createBoundaries() {
@@ -70,6 +74,7 @@ class Player extends BodyComponent with TapCallbacks {
   }
 }
 
+// wall component
 class Wall extends BodyComponent {
   final Vector2 _start;
   final Vector2 _end;
