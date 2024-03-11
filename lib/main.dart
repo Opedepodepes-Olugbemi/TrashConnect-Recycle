@@ -10,15 +10,24 @@ void main() {
 }
 
 class TrashConnect extends Forge2DGame {
-  TrashConnect() : super(gravity: Vector2(0, 5.0));
+  TrashConnect() : super(gravity: Vector2(0, 7.0));
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     camera.viewport.add(FpsTextComponent());
-    world.add(Player());
+
     world.addAll(createBoundaries());
+    world.add(Player(
+      initialPosition: Vector2(0, 10),
+      sprite: await loadSprite('trash.png')));
+    world.add(Player(
+      initialPosition: Vector2(5, 30),
+      sprite: await loadSprite('trash_cntnr.png')));
+      world.add(Player(
+      initialPosition: Vector2(10, 30),
+      sprite: await loadSprite('trash_kcup.png')));
   }
 
   List<Component> createBoundaries() {
@@ -38,13 +47,15 @@ class TrashConnect extends Forge2DGame {
 }
 
 class Player extends BodyComponent with TapCallbacks {
-  Player({Vector2? initialPosition})
+  final Sprite sprite;
+
+  Player({Vector2? initialPosition, required this.sprite})
       : super(
           fixtureDefs: [
             FixtureDef(
               CircleShape()..radius = 2,
-              restitution: 0.4,
-              friction: 0.4,
+              restitution: 0.2,
+              friction: 0.5,
             ),
           ],
           bodyDef: BodyDef(
@@ -54,7 +65,7 @@ class Player extends BodyComponent with TapCallbacks {
           ),
         );
 
-  @override
+@override
   void onTapDown(event) {
     body.applyLinearImpulse(Vector2.random() * 5000);
   }
@@ -65,11 +76,14 @@ class Player extends BodyComponent with TapCallbacks {
     renderBody = false;
 
 
-    add(SpriteComponent(
-        sprite: await game.loadSprite('trash.png'), size: Vector2(2,10), anchor: Anchor.center));
+        add(SpriteComponent(
+        sprite: sprite,
+        size: Vector2(4, 10),
+        anchor: Anchor.center));
   }
 }
 
+// wall component
 class Wall extends BodyComponent {
   final Vector2 _start;
   final Vector2 _end;
